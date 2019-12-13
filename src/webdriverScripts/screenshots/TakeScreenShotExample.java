@@ -1,4 +1,4 @@
-package webdriver_examples;
+package webdriverScripts.screenshots;
 
 import java.io.File;
 import java.io.IOException;
