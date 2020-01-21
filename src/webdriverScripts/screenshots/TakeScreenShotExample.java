@@ -8,23 +8,28 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class TakeScreenShotExample {
 	
 	public static void main(String [] args) throws IOException {
 		
-		System.setProperty("webdriver.gecko.driver", "resources/drivers/geckodriver.exe");
-		
-		WebDriver webDriverObj = new FirefoxDriver();
+		WebDriverManager.chromedriver().setup();
+
+		WebDriver webDriverObj = new ChromeDriver();
 		
 		webDriverObj.get("https://www.google.com");
 		
-		//webDriverObj.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		// Cast driver object to TakesScreenshot
+		TakesScreenshot screenshot = (TakesScreenshot) webDriverObj;
 		
-		File fileObj = ((TakesScreenshot)webDriverObj).getScreenshotAs(OutputType.FILE);
+		// Get the screenshot as an image File
+		File fileObj = screenshot.getScreenshotAs(OutputType.FILE);
 		
-		String screenShotObj = ((TakesScreenshot)webDriverObj).getScreenshotAs(OutputType.BASE64) ;
+		String screenShotObj = screenshot.getScreenshotAs(OutputType.BASE64) ;
 		
 		File fileBase64Obj = OutputType.FILE.convertFromBase64Png(screenShotObj);
 		
@@ -32,8 +37,7 @@ public class TakeScreenShotExample {
 		
 		FileUtils.copyFile(fileBase64Obj, new File("resources/screenshot2.png"),true);
 		
-		webDriverObj.quit();
-		
+		webDriverObj.quit();		
 		
 	}
 
